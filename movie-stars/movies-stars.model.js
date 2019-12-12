@@ -1,7 +1,20 @@
 const db = require('../data/dbConfig');
 
-function findStarsBy(movie_id) {
-    return db('movies_stars').where({movie_id})
+async function findStarsBy(movie_id) {
+    const stars = await db('movies_stars').where({movie_id})
+    const starList = stars.map(({stars_id}) => stars_id);
+    async function allStars(starsList) {
+        let rtnList = [];
+        for (let star of starsList) {
+            const aStar = await db('stars').where({id: star}).first();
+            rtnList = [...rtnList, aStar];
+        }
+        return rtnList;
+    }
+    const foundStars = allStars(starList).then(res => {
+        return res;
+    });
+    return foundStars;
 }
 
 async function addStarToMovie(starMovie) {
