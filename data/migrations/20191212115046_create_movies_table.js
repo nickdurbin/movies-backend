@@ -5,7 +5,6 @@ exports.up = function(knex) {
       tbl.string('title', 128).notNullable().unique();
       tbl.string('director', 128).notNullable();
       tbl.integer('metascore').notNullable();
-      tbl.timestamps(true, true);
   })
 };
 
